@@ -40,7 +40,7 @@ public class ClienteActivity extends AppCompatActivity {
         txtConfirma = findViewById(R.id.txtConfirma);
         editNome = findViewById(R.id.editNome);
         editCelular = findViewById(R.id.editCelular);
-        editLogin = findViewById(R.id.editLogin);
+        editLogin = findViewById(R.id.editLoginCelular);
         editSenha = findViewById(R.id.editSenha);
         editConfirmaSenha = findViewById(R.id.editConfirmaSenha);
         btnEnviar = findViewById(R.id.btnEnviar);
