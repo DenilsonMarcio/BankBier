@@ -82,14 +82,14 @@ public class SaldoActivity extends AppCompatActivity {
 
                                     jsonObject = jsonArray.getJSONObject(0);
 
-                                    String trezentos = (jsonObject.getString("bb_Tipo_1"));
-                                    String seiszentos = (jsonObject.getString("bb_Tipo_2"));
+                                    int trezentos = (jsonObject.getInt("bb_Tipo_1"));
+                                    int seiszentos = (jsonObject.getInt("bb_Tipo_2"));
 
                                     //String login = (jsonObject.getString("bbCelular"));
                                     //String senha = (jsonObject.getString("bb_Senha"));
 
-                                    txtSaldo.setText(jsonObject.getString(trezentos));
-                                    txtSaldoBanco.setText(jsonObject.getString(seiszentos));
+                                    txtSaldo.setText(jsonObject.getInt(String.valueOf(trezentos)));
+                                    txtSaldoBanco.setText(jsonObject.getInt(String.valueOf(seiszentos)));
                                     /* txtlogin.setText("Logado!!!");
                                     if((editLoginCelular.getText().toString().equals(login)&&(editSenha.getText().toString().equals(senha)))){
                                         Intent intent = new Intent(LoginActivity.this, SaldoActivity.class);
