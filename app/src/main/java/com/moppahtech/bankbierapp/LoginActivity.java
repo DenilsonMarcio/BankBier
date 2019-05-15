@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                 } catch (JSONException e) {
-                                   // txtlogin.setText("Não Logado!!!");
+                                   //txtlogin.setText("Não Logado!!!");
                                 }
 
 

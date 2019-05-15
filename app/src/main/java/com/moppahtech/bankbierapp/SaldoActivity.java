@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +27,8 @@ public class SaldoActivity extends AppCompatActivity {
     Button btnSacar, btnDepositar, btnConsulta;
     TextView txtSaldoBanco, txtSaldo;
     EditText editUsuario;
+
+    public int T1, T2,Total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class SaldoActivity extends AppCompatActivity {
                         public void run() {
 
                             try {
+                                //txtAviso.setText(response.body().string());
 
                                 try {
                                     String data = response.body().string();
@@ -82,26 +86,30 @@ public class SaldoActivity extends AppCompatActivity {
 
                                     jsonObject = jsonArray.getJSONObject(0);
 
-                                    int trezentos = (jsonObject.getInt("bb_Tipo_1"));
-                                    int seiszentos = (jsonObject.getInt("bb_Tipo_2"));
+                                    String tipo1 = (jsonObject.getString("bb_Tipo_1"));
+                                    String tipo2 = (jsonObject.getString("bb_Tipo_2"));
 
-                                    //String login = (jsonObject.getString("bbCelular"));
-                                    //String senha = (jsonObject.getString("bb_Senha"));
+                                    T1 = Integer.parseInt(tipo1) * 300;
+                                    T2 = Integer.parseInt(tipo2) * 600;
+                                    Total = T1 + T2;
+                                    String total = String.valueOf(Total);
 
-                                    txtSaldo.setText(jsonObject.getInt(String.valueOf(trezentos)));
-                                    txtSaldoBanco.setText(jsonObject.getInt(String.valueOf(seiszentos)));
-                                    /* txtlogin.setText("Logado!!!");
-                                    if((editLoginCelular.getText().toString().equals(login)&&(editSenha.getText().toString().equals(senha)))){
-                                        Intent intent = new Intent(LoginActivity.this, SaldoActivity.class);
-                                        startActivity(intent);
-                                    }else {
-                                        Toast toast = Toast.makeText(LoginActivity.this,"Informe a senha correta!",Toast.LENGTH_LONG);
-                                        toast.show();
-                                    }*/
+
+                                    //atualizarSaldo();
+
+                                    //HttpUrl.Builder urlBuilder = HttpUrl.parse("http://moppahtech.co.nf/bb_update_saldo.php").newBuilder();
+
+                                    //urlBuilder.addQueryParameter("bb_saldo",txtSaldoBanco.getText().toString());
+
+                                    txtSaldo.setText(total);
+                                    //txtSaldoBanco.setText(tipo2);
 
 
                                 } catch (JSONException e) {
                                     // txtlogin.setText("Não Logado!!!");
+                                    Toast toast  = Toast.makeText(SaldoActivity.this,"Cervejeiro não cadastrado!",Toast.LENGTH_LONG);
+                                    toast.show();
+
                                 }
 
 
@@ -123,4 +131,49 @@ public class SaldoActivity extends AppCompatActivity {
 
     }
 
+    public void atualizarSaldo (){
+
+        int saldo = T1 + T2;
+        String saldoBanco = String.valueOf(saldo);
+
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            OkHttpClient client = new OkHttpClient();
+
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("http://moppahtech.co.nf/bb_update_saldo.php").newBuilder();
+
+            urlBuilder.addQueryParameter("bb_saldo", saldoBanco);
+
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                        }
+                    });
+                }
+
+
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
