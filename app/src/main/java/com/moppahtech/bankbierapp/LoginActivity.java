@@ -93,7 +93,19 @@ public class LoginActivity extends AppCompatActivity {
                                     // txtlogin.setText("Logado!!!");
                                     if((editLoginCelular.getText().toString().equals(login)&&(editSenha.getText().toString().equals(senha)))){
                                         Intent intent = new Intent(LoginActivity.this, SaldoActivity.class);
+
+
+
+
+                                        Bundle chave = new Bundle();
+                                        chave.putString("chave",login);
+                                        intent.putExtras(chave);
                                         startActivity(intent);
+
+
+
+
+
                                     }else {
                                         Toast toast = Toast.makeText(LoginActivity.this,"Informe a senha correta!",Toast.LENGTH_LONG);
                                         toast.show();

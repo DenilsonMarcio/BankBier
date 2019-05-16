@@ -17,7 +17,7 @@ import okhttp3.Response;
 
 public class ClienteActivity extends AppCompatActivity {
 
-    EditText editNome, editCelular, editLogin, editSenha, editConfirmaSenha;
+    EditText editNome, editCelular, editSenha, editConfirmaSenha;
     Button btnEnviar;
     TextView txtConfirma;
 
@@ -25,7 +25,6 @@ public class ClienteActivity extends AppCompatActivity {
         editNome.clearFocus();
         editNome.setText("");
         editCelular.setText("");
-        editLogin.setText("");
         editSenha.setText("");
         editConfirmaSenha.setText("");
         txtConfirma.setText("Carregando...!");
@@ -40,7 +39,6 @@ public class ClienteActivity extends AppCompatActivity {
         txtConfirma = findViewById(R.id.txtConfirma);
         editNome = findViewById(R.id.editNome);
         editCelular = findViewById(R.id.editCelular);
-        editLogin = findViewById(R.id.editLoginCelular);
         editSenha = findViewById(R.id.editSenha);
         editConfirmaSenha = findViewById(R.id.editConfirmaSenha);
         btnEnviar = findViewById(R.id.btnEnviar);
@@ -58,6 +56,7 @@ public class ClienteActivity extends AppCompatActivity {
         if (editSenha.getText().toString().equals(editConfirmaSenha.getText().toString())){
 
             try{
+                String inicio = "0";
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
 
@@ -66,8 +65,9 @@ public class ClienteActivity extends AppCompatActivity {
                 HttpUrl.Builder urlBuilder = HttpUrl.parse("http://moppahtech.co.nf/bb_insert_cadastro.php").newBuilder();
                 urlBuilder.addQueryParameter("bbCelular", editCelular.getText().toString());
                 urlBuilder.addQueryParameter("bb_Nome", editNome.getText().toString());
-                urlBuilder.addQueryParameter("bb_Login", editLogin.getText().toString());
                 urlBuilder.addQueryParameter("bb_Senha", editSenha.getText().toString());
+                urlBuilder.addQueryParameter("bb_Tipo_1", inicio.toString());
+                urlBuilder.addQueryParameter("bb_Tipo_2", inicio.toString());
                 String url = urlBuilder.build().toString();
 
                 Request request = new Request.Builder()

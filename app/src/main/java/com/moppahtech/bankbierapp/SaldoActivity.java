@@ -1,5 +1,6 @@
 package com.moppahtech.bankbierapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -24,35 +25,62 @@ import okhttp3.Response;
 
 public class SaldoActivity extends AppCompatActivity {
 
-    Button btnSacar, btnDepositar, btnConsulta;
-    TextView txtSaldoBanco, txtSaldo;
-    EditText editUsuario;
+    private Button btnSacar, btnDepositar;
+    private TextView txtSaldoBanco, txtSaldo, txtObservacao;
+    private EditText editDepositante, editObservacao, editTipo2, editTipo1;
 
-    public int T1, T2,Total;
+    public int T1, T2,Total,SD;
+    public String log;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saldo);
 
-        btnConsulta =findViewById(R.id.btnConsulta);
+       // btnConsulta =findViewById(R.id.btnConsulta);
         btnSacar = findViewById(R.id.btnSacar);
         btnDepositar = findViewById(R.id.btnDepositar);
         txtSaldo = findViewById(R.id.txtSaldo);
         txtSaldoBanco = findViewById(R.id.txtSaldoBanco);
-        editUsuario = findViewById(R.id.editUsuario);
-    }
+        txtObservacao = findViewById(R.id.txtObservacao);
+        editDepositante = findViewById(R.id.editDepositante);
+        editObservacao = findViewById(R.id.editObservacao);
+        editTipo2 = findViewById(R.id.editTipo2);
+        editTipo1 = findViewById(R.id.editTipo1);
 
-    public void consultaSaldo (View view){
+
+        Intent intent = getIntent();
+        Bundle chave = intent.getExtras();
+        if(chave != null){
+            log = chave.getString("chave");
+
+
+            if(log.toString().equals("123")){
+                btnDepositar.setVisibility(View.VISIBLE);
+                editDepositante.setVisibility(View.VISIBLE);
+                editObservacao.setVisibility(View.VISIBLE);
+                txtObservacao.setVisibility(View.VISIBLE);
+                btnSacar.setVisibility(View.INVISIBLE);
+
+
+            }else {
+                btnDepositar.setVisibility(View.INVISIBLE);
+                editDepositante.setVisibility(View.INVISIBLE);
+                editObservacao.setVisibility(View.INVISIBLE);
+                txtObservacao.setVisibility(View.INVISIBLE);
+                btnSacar.setVisibility(View.VISIBLE);
+            }
+
+
 
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
             OkHttpClient client = new OkHttpClient();
-
             HttpUrl.Builder urlBuilder = HttpUrl.parse("http://moppahtech.co.nf/bb_select_quantidade.php").newBuilder();
-            urlBuilder.addQueryParameter("bbCelular", editUsuario.getText().toString());
+            urlBuilder.addQueryParameter("bbCelular", log);
 
             // urlBuilder.addQueryParameter("bb_Senha", editSenha.getText().toString());
 
@@ -94,28 +122,16 @@ public class SaldoActivity extends AppCompatActivity {
                                     Total = T1 + T2;
                                     String total = String.valueOf(Total);
 
-
-                                    //atualizarSaldo();
-
-                                    //HttpUrl.Builder urlBuilder = HttpUrl.parse("http://moppahtech.co.nf/bb_update_saldo.php").newBuilder();
-
-                                    //urlBuilder.addQueryParameter("bb_saldo",txtSaldoBanco.getText().toString());
-
                                     txtSaldo.setText(total);
-                                    //txtSaldoBanco.setText(tipo2);
-
 
                                 } catch (JSONException e) {
-                                    // txtlogin.setText("Não Logado!!!");
                                     Toast toast  = Toast.makeText(SaldoActivity.this,"Cervejeiro não cadastrado!",Toast.LENGTH_LONG);
                                     toast.show();
 
                                 }
 
-
                             } catch (IOException e) {
                                 e.printStackTrace();
-
 
                             }
 
@@ -123,13 +139,91 @@ public class SaldoActivity extends AppCompatActivity {
                     });
                 }
 
-
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
+
+            try {
+
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+
+                OkHttpClient client = new OkHttpClient();
+                HttpUrl.Builder urlBuilder = HttpUrl.parse("http://moppahtech.co.nf/bb_select_saldobanco.php").newBuilder();
+                urlBuilder.addQueryParameter("bbCelular", "0");
+
+                // urlBuilder.addQueryParameter("bb_Senha", editSenha.getText().toString());
+
+                String url = urlBuilder.build().toString();
+
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                try {
+                                    //txtAviso.setText(response.body().string());
+
+                                    try {
+                                        String data = response.body().string();
+
+                                        JSONArray jsonArray = new JSONArray(data);
+                                        JSONObject jsonObject;
+
+                                        jsonObject = jsonArray.getJSONObject(0);
+
+                                        String saldo = (jsonObject.getString("sum((bb_Tipo_1*300)+(bb_Tipo_2*600))"));
+
+
+                                        SD = Integer.parseInt(saldo);
+
+                                        String saldobanco = String.valueOf(SD);
+
+                                        txtSaldoBanco.setText(saldobanco);
+
+                                    } catch (JSONException e) {
+
+                                    }
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+
+                                }
+
+                            }
+                        });
+                    }
+
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
     }
+    }
+
+
+
+
 
     public void atualizarSaldo (){
 
