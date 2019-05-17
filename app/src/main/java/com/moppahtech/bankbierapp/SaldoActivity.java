@@ -28,7 +28,6 @@ public class SaldoActivity extends AppCompatActivity {
     private Button btnSacar, btnDepositar;
     private TextView txtSaldoBanco, txtSaldo, txtObservacao,txt300,txt600;
     private EditText editDepositante, editObservacao, editTipo2, editTipo1;
-
     public int T1, T2,Total,SD;
     public String log, tipo1, tipo2;
 
@@ -38,7 +37,6 @@ public class SaldoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saldo);
 
-       // btnConsulta =findViewById(R.id.btnConsulta);
         btnSacar = findViewById(R.id.btnSacar);
         btnDepositar = findViewById(R.id.btnDepositar);
         txtSaldo = findViewById(R.id.txtSaldo);
@@ -235,11 +233,11 @@ public class SaldoActivity extends AppCompatActivity {
         int A = Integer.parseInt(tipo1);
         int B = Integer.parseInt(tipo2);
 
-        A = (A + DP1);
-        B = (B + DP2);
+        A = A + DP1;
+        B = B + DP2;
 
-        String depo1 = String.valueOf(DP1);
-        String depo2 = String.valueOf(DP2);
+        String depo1 = String.valueOf(A);
+        String depo2 = String.valueOf(B);
 
         try {
 
@@ -282,11 +280,19 @@ public class SaldoActivity extends AppCompatActivity {
 
 
             });
+            Toast toast = Toast.makeText(SaldoActivity.this,"Cerveja depositada !",Toast.LENGTH_LONG);
+            toast.show();
+
         } catch (Exception e) {
             e.printStackTrace();
+            Toast toast = Toast.makeText(SaldoActivity.this,"Deposito não realizado !",Toast.LENGTH_LONG);
+            toast.show();
+
         }
 
-        //limpar();
+        limpar();
+        Intent intent = new Intent(SaldoActivity.this,LoginActivity.class);
+        startActivity(intent);
 
     }
 
@@ -300,11 +306,11 @@ public class SaldoActivity extends AppCompatActivity {
         int A = Integer.parseInt(tipo1);
         int B = Integer.parseInt(tipo2);
 
-        A = (A - DP1);
-        B = (B - DP2);
+        A = A - DP1;
+        B = B - DP2;
 
-        String depo1 = String.valueOf(DP1);
-        String depo2 = String.valueOf(DP2);
+        String depo1 = String.valueOf(A);
+        String depo2 = String.valueOf(B);
 
         try {
 
@@ -347,11 +353,24 @@ public class SaldoActivity extends AppCompatActivity {
 
 
             });
+            Toast toast = Toast.makeText(SaldoActivity.this,"Saque realizado !",Toast.LENGTH_LONG);
+            toast.show();
+
         } catch (Exception e) {
             e.printStackTrace();
+            Toast toast = Toast.makeText(SaldoActivity.this,"Não foi possivel sacar !",Toast.LENGTH_LONG);
+            toast.show();
         }
 
-        //limpar();
+        limpar();
+        Intent intent = new Intent(SaldoActivity.this,LoginActivity.class);
+        startActivity(intent);
+
+    }
+    public void limpar() {
+        editTipo1.clearFocus();
+        editTipo1.setText("");
+        editTipo2.setText("");
 
     }
 }
