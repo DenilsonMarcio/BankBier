@@ -31,13 +31,12 @@ public class LoginActivity extends AppCompatActivity {
 
         editLoginCelular = findViewById(R.id.editLoginCelular);
         editSenha = findViewById(R.id.editSenha);
-        //editPesquisa = findViewById(R.id.editPesquisa);
         btnLogar = findViewById(R.id.btnLogar);
         btnSemCadastro = findViewById(R.id.btnSemCadastro);
 
     }
 
-    public void pesquisar(View view){
+    public void pesquisar(View view) {
 
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -78,35 +77,26 @@ public class LoginActivity extends AppCompatActivity {
 
                                     jsonObject = jsonArray.getJSONObject(0);
 
-                                   String login = (jsonObject.getString("bbCelular"));
-                                   String senha = (jsonObject.getString("bb_Senha"));
+                                    String login = (jsonObject.getString("bbCelular"));
+                                    String senha = (jsonObject.getString("bb_Senha"));
 
-                                    //editLoginCelular.setText(jsonObject.getString("bbCelular"));
-                                    //editSenha.setText(jsonObject.getString("bb_Senha"));
-                                    // txtlogin.setText("Logado!!!");
-                                    if((editLoginCelular.getText().toString().equals(login)&&(editSenha.getText().toString().equals(senha)))){
+
+                                    if ((editLoginCelular.getText().toString().equals(login) && (editSenha.getText().toString().equals(senha)))) {
                                         Intent intent = new Intent(LoginActivity.this, SaldoActivity.class);
 
-
-
-
                                         Bundle chave = new Bundle();
-                                        chave.putString("chave",login);
+                                        chave.putString("chave", login);
                                         intent.putExtras(chave);
                                         startActivity(intent);
 
-
-
-
-
-                                    }else {
-                                        Toast toast = Toast.makeText(LoginActivity.this,"Informe a senha correta!",Toast.LENGTH_LONG);
+                                    } else {
+                                        Toast toast = Toast.makeText(LoginActivity.this, "Informe a senha correta!", Toast.LENGTH_LONG);
                                         toast.show();
                                     }
 
 
                                 } catch (JSONException e) {
-                                   //txtlogin.setText("Não Logado!!!");
+                                    //txtlogin.setText("Não Logado!!!");
                                 }
 
 
@@ -127,7 +117,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-    public void semcadastro(View view){
+
+    public void semcadastro(View view) {
         Intent intent = new Intent(LoginActivity.this, ClienteActivity.class);
         startActivity(intent);
     }

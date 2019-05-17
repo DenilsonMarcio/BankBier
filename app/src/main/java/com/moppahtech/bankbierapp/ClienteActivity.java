@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import java.io.IOException;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -43,19 +45,18 @@ public class ClienteActivity extends AppCompatActivity {
         editConfirmaSenha = findViewById(R.id.editConfirmaSenha);
         btnEnviar = findViewById(R.id.btnEnviar);
 
-}
+    }
 
 
-
-    public void salvar(View view){
+    public void salvar(View view) {
 
         String snh, confsnh;
         snh = editSenha.getText().toString();
         confsnh = editConfirmaSenha.getText().toString();
 
-        if (editSenha.getText().toString().equals(editConfirmaSenha.getText().toString())){
+        if (editSenha.getText().toString().equals(editConfirmaSenha.getText().toString())) {
 
-            try{
+            try {
                 String inicio = "0";
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
@@ -105,13 +106,11 @@ public class ClienteActivity extends AppCompatActivity {
 
             limpar();
 
-        }else {
+        } else {
             txtConfirma.setText("Senha não confirmada...!");
         }
 
-        }
-
-
+    }
 
 
 }
