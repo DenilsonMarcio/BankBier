@@ -8,13 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -27,8 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText editLoginCelular, editSenha, editPesquisa;
     Button btnLogar, btnSemCadastro;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         //editPesquisa = findViewById(R.id.editPesquisa);
         btnLogar = findViewById(R.id.btnLogar);
         btnSemCadastro = findViewById(R.id.btnSemCadastro);
-
 
     }
 
@@ -53,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
 
             HttpUrl.Builder urlBuilder = HttpUrl.parse("http://moppahtech.co.nf/bb_select_login.php").newBuilder();
             urlBuilder.addQueryParameter("bbCelular", editLoginCelular.getText().toString());
-           // urlBuilder.addQueryParameter("bb_Senha", editSenha.getText().toString());
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder()
